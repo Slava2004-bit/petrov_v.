@@ -1,0 +1,88 @@
+import sys
+
+import pygame
+
+def run_game():
+    pygame.init()
+    screen = pygame.display.set_mode((1200, 800))
+    pygame.display.set_caption("Alien Invasion")
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+        pygame.display.flip()
+run_game()
+
+def run_game():
+    pygame.display.set_caption("Alien Invasion")
+    bg_color = (230, 230, 230)
+    while True:
+        screen.fill(bg_color)
+        pygame.display.flip()
+run_game()
+
+from settings import Settings
+
+def run_game():
+    pygame.init()
+    ai.settings = Settings
+    screen = pygame.display.set.mode(
+        (ai_settings.screen_width, ai.setting.screen_height))
+    pygame.display.set_caption("Alien Invasion")
+
+    while True:
+        screen.fill(ai_settings.bg_color)
+        pygame.display.flip()
+run_game()
+
+from settings import Settings
+from ship import Ship
+
+def run_game():
+    pygame.display.set_caption("Alien Invasion")
+
+    ship = Ship(screen)
+
+    while True:
+        screen.fill(ai_settings.bg_color)
+        ship.blitme()
+        pygame.display.flip()
+run_game()
+
+import pygame
+from settings import Settings
+from ship import Ship
+import game_functions as gf
+def run_game():
+    while True:
+        gf.check_events()
+        screen.fill(ai_settings.bg_color)
+        ship.blitme()
+    while True:
+        gf.check_events()
+        gf.update_screen(ai_settings, screen, ship)
+    while True:
+        gf.check_events(ship)
+        gf.update_screen(ai_settings, screen, ship)
+    while True:
+        gf.check_events(ship)
+        ship.update()
+        gf.update_screen(ai_settings, screen, ship)
+run_game()
+def run_game():
+    ship = Ship(ai_settings, screen)
+
+import pygame
+from pygame.sprite import Group
+
+def run_game():
+
+    ship = Ship(ai_settings, screen)
+    bullets = Group()
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        bullets.update()
+        gf.update_screen(ai_settings, screen, ship, bullets)
+run_game()
+
