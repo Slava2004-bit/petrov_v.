@@ -25,7 +25,7 @@ from settings import Settings
 
 def run_game():
     pygame.init()
-    ai.settings = Settings
+    ai.settings = Settings()
     screen = pygame.display.set.mode(
         (ai_settings.screen_width, ai.setting.screen_height))
     pygame.display.set_caption("Alien Invasion")
@@ -33,7 +33,8 @@ def run_game():
     while True:
         screen.fill(ai_settings.bg_color)
         pygame.display.flip()
-run_game()
+
+        ship = Ship(ai_settings, screen)
 
 from settings import Settings
 from ship import Ship
@@ -56,6 +57,7 @@ import game_functions as gf
 def run_game():
     while True:
         gf.check_events()
+
         screen.fill(ai_settings.bg_color)
         ship.blitme()
     while True:
@@ -69,8 +71,6 @@ def run_game():
         ship.update()
         gf.update_screen(ai_settings, screen, ship)
 run_game()
-def run_game():
-    ship = Ship(ai_settings, screen)
 
 import pygame
 from pygame.sprite import Group
@@ -84,5 +84,102 @@ def run_game():
         ship.update()
         bullets.update()
         gf.update_screen(ai_settings, screen, ship, bullets)
+        for bullet in bullets.copy():
+            if bullet.rect.bottom <= 0:
+                bullets.remove(bullet)
+        print(len(bullets))
+        gf.update_screen(ai_settings, screen, ship, bullets)
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        gf.update_bullets(bullets)
+        gf.update_screen(ai_settings, screen, ship, bullets)
+
+from ship import Ship
+from alien import Alien
+import game_functions as gf
+alien = Alien(ai_settings, screen)
+def run_game():
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        gf.update_bullets(bullets)
+        gf.update_screen(ai_settings, screen, ship, alien, bullets)
+        ship = Ship(ai_settings, screen)
+        bullets = Group()
+        aliens = Group()
+        gf.create_fleet(ai_settings, screen, aliens)
+
+    while True:
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+        gf.create_fleet(ai_settings, screen, ship, aliens)
+
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        gf.update_bullets(bullets)
+        gf.update_aliens(ai_settings, aliens)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 run_game()
 
+def run_game():
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        gf.update_bullets(aliens, bullets)
+        gf.update_aliens(ai_settings, aliens)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+        gf.update_aliens(ai_settings, ship, aliens)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+run_game()
+from settings import Settings
+from game_stats import GameStats
+def run_game():
+    pygame.display.set_caption("Alien Invasion")
+    stats = GameStats(ai_settings)
+    while True:
+        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+        gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        if stats.game_active:
+            ship.update()
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, ship, aliens)
+        
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+run_game()
+
+from game_stats import GameStats
+from button import Button
+
+def run_game():
+    pygame.display.set_caption("Alien Invasion")
+    play_button = Button(ai_settings, screen, "Play")
+    while True:
+        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+    while True:
+        gf.check_events(ai_settings, screen, stats, play_button, ship, bullets)
+    while True:
+        gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
+    stats = GameStats(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
+run_game()
+
+from game_stats import GameStats
+from scoreboard import Scoreboard
+def run_game():
+    stats = GameStats(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
+    while True:
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button)
+    while True:
+        gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
+    if stats.game_active:
+        ship.update()
+        gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
+run_game()

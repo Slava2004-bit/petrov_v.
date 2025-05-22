@@ -12,3 +12,18 @@ class Alien(Sprite):
         self.x = float(self.rect.x)
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+    while True:
+        gf.check_events(ai_settings, screen, ship, bullets)
+        ship.update()
+        gf.update_bullets(bullets)
+        gf.update_aliens(aliens)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+def check_edges(self):
+    screen_rect = self.screen.get_rect()
+    if self.rect.right >= screen_rect.right:
+        return True
+    elif self.rect.left <= 0:
+        return True
+def update(self):
+    self.x += (self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction)
+    self.rect.x = self.x
